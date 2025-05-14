@@ -30,7 +30,7 @@ A Django-based AI-powered web application that helps students find the best-fit 
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/YOUR_USERNAME/College-Recommendation-System.git
+git clone https://github.com/yashsonawane14/College-Recommendation-System.git
 cd College-Recommendation-System
 ```
 
@@ -107,16 +107,6 @@ A chatbot (`chatbot.html`) is included and rendered on each page to assist stude
 ## 🤝 Contributing
 
 Pull requests are welcome! For major changes, please open an issue first.
-
----
-
-## 📷 Screenshots (optional)
-
-Add screenshots here using:
-```markdown
-![Home](screenshots/home.png)
-![Recommendation Result](screenshots/result.png)
-```
 
 ---
 
