@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compare Colleges</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+            background: 
+                linear-gradient(to right, rgba(15, 12, 41, 0.6), rgba(48, 43, 99, 0.6), rgba(36, 36, 62, 0.6)),
+                url('https://cdn.pixabay.com/photo/2022/08/09/13/11/ireland-7374959_1280.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             color: white;
             margin: 0;
             padding: 0;
-            text-align: center;
+            min-height: 100vh;
             animation: fadeIn 1s ease-in-out;
         }
 
@@ -24,11 +28,12 @@
         }
 
         .navbar {
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.6);
             padding: 15px 20px;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
+            backdrop-filter: blur(5px);
         }
 
         .navbar span {
@@ -36,33 +41,61 @@
             font-weight: 600;
         }
 
+        .nav-buttons button {
+            margin-left: 10px;
+            padding: 8px 16px;
+            font-size: 14px;
+            border: none;
+            background: #7B68EE;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .nav-buttons button:hover {
+            background: #6A5ACD;
+        }
+
         .container {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 80vh;
+            min-height: calc(100vh - 60px);
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .compare-box {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(123, 104, 238, 0.3);
             padding: 30px;
             border-radius: 15px;
-            width: 400px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease, background 0.3s ease;
             opacity: 0;
             animation: fadeInUp 1.2s ease-in-out forwards;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 30px;
         }
 
         .compare-box:hover {
             transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(123, 104, 238, 0.4);
         }
 
         @keyframes fadeInUp {
             from { transform: translateY(50px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         input {
@@ -76,6 +109,12 @@
             background: rgba(255, 255, 255, 0.2);
             color: white;
             outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 0 2px rgba(123, 104, 238, 0.5);
         }
 
         input::placeholder {
@@ -83,7 +122,7 @@
         }
 
         button {
-            background: #ff6f61;
+            background: #7B68EE;
             color: white;
             border: none;
             padding: 12px 20px;
@@ -91,139 +130,156 @@
             cursor: pointer;
             border-radius: 25px;
             transition: background 0.3s ease, transform 0.2s ease;
-            margin-top: 10px;
+            margin-top: 15px;
+            font-weight: 600;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         button:hover {
-            background: #ff3b2f;
+            background: #6A5ACD;
             transform: scale(1.05);
         }
 
-        .loading { font-style: italic; color: gray; }
-        .error { color: red; }
+        .loading { 
+            font-style: italic; 
+            color: #ccc;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .error { 
+            color: #ff6f61;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
 
         table {
-    width: 100%;
-    max-width: 400px; /* Adjust width as per design */
-    table-layout: fixed; /* Ensure equal column width */
-    margin-top: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    border-radius: 10px;
-    overflow: hidden;
-}
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            border-collapse: collapse;
+            backdrop-filter: blur(5px);
+        }
 
-th, td {
-    padding: 10px;
-    text-align: center;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    word-break: break-word; /* Ensures long text wraps */
-    overflow-wrap: break-word;
-    white-space: normal;
-}
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            word-break: break-word;
+        }
 
-th {
-    background: #ff6f61;
-    font-weight: bold;
-}
+        th {
+            background: rgba(123, 104, 238, 0.5);
+            font-weight: 600;
+        }
 
+        tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.05);
+        }
 
+        tr:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
 
         .back-btn {
             display: inline-block;
             text-decoration: none;
             color: white;
-            background: #ff6f61;
-            padding: 12px 20px;
+            background: rgba(123, 104, 238, 0.5);
+            padding: 12px 25px;
             border-radius: 25px;
-            transition: background 0.3s ease;
+            transition: background 0.3s ease, transform 0.2s ease;
             margin-top: 20px;
+            font-size: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .back-btn:hover {
-            background: #ff3b2f;
+            background: rgba(123, 104, 238, 0.7);
+            transform: scale(1.02);
         }
-        select {
-    width: 90%;
-    padding: 12px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 25px;
-    font-size: 16px;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.2);
-    color: rgb(27, 26, 26);
-    outline: none;
-    
-}
 
+        @media (max-width: 768px) {
+            .compare-box {
+                padding: 25px;
+                width: 90%;
+            }
+            
+            table {
+                font-size: 14px;
+            }
+            
+            th, td {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .compare-box {
+                padding: 20px;
+            }
+            
+            h2 {
+                font-size: 22px;
+            }
+            
+            input, button {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
 
     <div class="navbar">
         <span>College Portal</span>
+        <div class="nav-buttons">
+            {% if user.is_authenticated %}
+                <span style="margin-right: 10px;">Hello, {{ user.username }}!</span>
+                <button onclick="window.location.href='/logout/'">Logout</button>
+            {% else %}
+                <button onclick="window.location.href='/login/'">Login</button>
+                <button onclick="window.location.href='/register/'">Register</button>
+            {% endif %}
+        </div>
     </div>
 
     <div class="container">
         <div class="compare-box">
             <h2>Compare Colleges</h2>
             <form id="compareForm">
-                <!-- <input type="text" id="college_name1" placeholder="Enter First College Name" required>
-                <input type="text" id="college_name2" placeholder="Enter Second College Name" required> -->
-                <select id="college_name1" required>
-                    <option value="">-- Select First College --</option>
-                </select>
-                
-                <select id="college_name2" required>
-                    <option value="">-- Select Second College --</option>
-                </select>
-                
+                <input type="text" id="college_name1" placeholder="Enter First College Name" required>
+                <input type="text" id="college_name2" placeholder="Enter Second College Name" required>
                 <button type="submit">Compare</button>
             </form>
 
             <div id="result"></div>
         </div>
 
-        <a href="{% url 'home' %}" class="back-btn">Back</a>
+        <a href="{% url 'home' %}" class="back-btn">Back to Home</a>
     </div>
+
     <script>
-        // Populate dropdowns on load
-        window.onload = function () {
-            fetch("/get_college_names/")
-                .then(response => response.json())
-                .then(data => {
-                    let select1 = document.getElementById("college_name1");
-                    let select2 = document.getElementById("college_name2");
-    
-                    data.colleges.forEach(college => {
-                        const option1 = new Option(college, college);
-                        const option2 = new Option(college, college);
-                        select1.appendChild(option1);
-                        select2.appendChild(option2);
-                    });
-                });
-        };
-    
-        document.getElementById("compareForm").addEventListener("submit", function (event) {
+        document.getElementById("compareForm").addEventListener("submit", function(event) {
             event.preventDefault();
             let collegeName1 = document.getElementById("college_name1").value.trim();
             let collegeName2 = document.getElementById("college_name2").value.trim();
             let resultDiv = document.getElementById("result");
-    
+
             if (collegeName1 === "" || collegeName2 === "") {
-                resultDiv.innerHTML = "<p class='error'>Please select both colleges.</p>";
+                resultDiv.innerHTML = "<p class='error'>Please enter both college names.</p>";
                 return;
             }
-    
-            resultDiv.innerHTML = "<p class='loading'>Searching...</p>";
-    
+
+            resultDiv.innerHTML = "<p class='loading'>Searching for colleges...</p>";
+
             Promise.all([
                 fetchCollegeData(collegeName1),
                 fetchCollegeData(collegeName2)
             ]).then(([data1, data2]) => {
                 if (data1.error || data2.error) {
-                    resultDiv.innerHTML = "<p class='error'>One or both colleges not found!</p>";
+                    resultDiv.innerHTML = `<p class='error'>${data1.error || data2.error}</p>`;
                 } else {
                     resultDiv.innerHTML = `
                         <table>
@@ -234,18 +290,23 @@ th {
                             </tr>
                             <tr>
                                 <td>Established Year</td>
-                                <td>${data1.established_year}</td>
-                                <td>${data2.established_year}</td>
+                                <td>${data1.established_year || 'N/A'}</td>
+                                <td>${data2.established_year || 'N/A'}</td>
                             </tr>
                             <tr>
                                 <td>Rating</td>
-                                <td>${data1.rating}</td>
-                                <td>${data2.rating}</td>
+                                <td>${data1.rating || 'N/A'}</td>
+                                <td>${data2.rating || 'N/A'}</td>
                             </tr>
                             <tr>
                                 <td>Average Fees</td>
-                                <td>₹${data1.average_fees}</td>
-                                <td>₹${data2.average_fees}</td>
+                                <td>${data1.average_fees ? '₹' + data1.average_fees : 'N/A'}</td>
+                                <td>${data2.average_fees ? '₹' + data2.average_fees : 'N/A'}</td>
+                            </tr>
+                            <tr>
+                                <td>Location</td>
+                                <td>${data1.location || 'N/A'}</td>
+                                <td>${data2.location || 'N/A'}</td>
                             </tr>
                         </table>
                     `;
@@ -254,24 +315,36 @@ th {
                 console.error("Error:", error);
                 resultDiv.innerHTML = "<p class='error'>An error occurred. Please try again later.</p>";
             });
-    
+
             function getCSRFToken() {
-                return document.cookie.split('; ').find(row => row.startsWith('csrftoken='))?.split('=')[1];
+                const cookieValue = document.cookie
+                    .split('; ')
+                    .find(row => row.startsWith('csrftoken='))
+                    ?.split('=')[1];
+                return cookieValue;
             }
-    
+
             function fetchCollegeData(collegeName) {
                 return fetch("/search/", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                        "X-CSRFToken": getCSRFToken()
+                    headers: { 
+                        "Content-Type": "application/x-www-form-urlencoded", 
+                        "X-CSRFToken": getCSRFToken() 
                     },
                     body: "college_name=" + encodeURIComponent(collegeName.toLowerCase())
-                }).then(response => response.json());
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .catch(error => {
+                    return { error: "Failed to fetch college data" };
+                });
             }
         });
     </script>
-    
 
 </body>
 </html>

@@ -1,0 +1,202 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommended Colleges</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Recommended Colleges</h1>
+    <ul id="recommendations-list">
+        {% for college in recommendations %}
+            <li id="college-{{ forloop.counter }}">
+                {{ college }}
+                <button class="discard-btn" data-college="{{ college }}">Discard</button>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'recommendation_form' %}">Back</a>
+
+    <script>
+        $(document).ready(function() {
+            $('.discard-btn').click(function() {
+                var college = $(this).data('college');  
+                var listItem = $(this).closest('li'); 
+
+                $.ajax({
+                    url: "{% url 'discard_college' %}",
+                    method: 'POST',
+                    data: {
+                        college: college,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'  
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            listItem.remove();
+
+                            $('#recommendations-list').append(
+                                '<li>' + response.new_recommendation + 
+                                ' <button class="discard-btn" data-college="' + response.new_recommendation + '">Discard</button></li>'
+                            );
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('An error occurred while processing your request.');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommended Colleges</title>
+    
+    <!-- Include jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+            color: white;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .discard-btn {
+            background: #ff6f61;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .discard-btn:hover {
+            background: #ff3b2f;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: white;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 15px;
+            display: inline-block;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Recommended Colleges</h1>
+        <ul id="recommendations-list">
+            {% for college in recommendations %}
+                <li id="college-{{ forloop.counter }}">
+                    {{ college }}
+                    <button class="discard-btn" data-college="{{ college }}">Discard</button>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'recommendation_form' %}" class="back-btn">Back</a>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            function bindDiscardEvent() {
+                $(".discard-btn").off("click").on("click", function() {
+                    var college = $(this).data("college");
+                    var listItem = $(this).closest("li");
+
+                    if (!confirm("Are you sure you want to discard " + college + "?")) {
+                        return;
+                    }
+
+                    $.ajax({
+                        url: "{% url 'discard_college' %}",
+                        method: "POST",
+                        data: {
+                            college: college,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        success: function(response) {
+                            if (response.status === "success") {
+                                listItem.fadeOut(300, function() {
+                                    $(this).remove();
+
+                                    if (response.new_recommendation) {
+                                        $("#recommendations-list").append(
+                                            `<li>${response.new_recommendation} 
+                                                <button class="discard-btn" data-college="${response.new_recommendation}">Discard</button>
+                                            </li>`
+                                        );
+                                        bindDiscardEvent();
+                                    }
+                                });
+                            } else {
+                                alert("Error: " + response.message);
+                            }
+                        },
+                        error: function() {
+                            alert("An error occurred while processing your request.");
+                        }
+                    });
+                });
+            }
+
+            bindDiscardEvent();
+        });
+    </script>
+
+</body>
+</html>

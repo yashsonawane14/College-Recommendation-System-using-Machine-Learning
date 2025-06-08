@@ -1,117 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>College Portal</title>
+    <title>Services - College Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         body {
             font-family: 'Poppins', sans-serif;
-            background: 
-                linear-gradient(to right, rgba(15, 12, 41, 0.6), rgba(48, 43, 99, 0.6), rgba(36, 36, 62, 0.6)),
-                url('https://cdn.pixabay.com/photo/2022/08/09/13/11/ireland-7374959_1280.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+            background: linear-gradient(to right, #0f0c29, #302b63, #24243e);
             color: white;
-            min-height: 100vh;
-            overflow-x: hidden;
-            padding-top: 60px; /* Space for fixed navbar */
+            margin: 0;
+            padding: 0;
+            animation: fadeIn 1s ease-in-out;
         }
-        
-        /* Fixed navbar that won't move with animations */
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         .navbar {
             background: rgba(0, 0, 0, 0.7);
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(5px);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
+
         .navbar span {
             font-size: 24px;
             font-weight: 600;
         }
+
         .nav-buttons button {
             margin-left: 10px;
             padding: 8px 16px;
             font-size: 14px;
             border: none;
-            background: #7B68EE;
+            background: #ff6f61;
             color: white;
             border-radius: 5px;
             cursor: pointer;
-            transition: background 0.3s ease;
-        }
-        .nav-buttons button:hover {
-            background: #6A5ACD;
         }
 
-        /* Hero section with animation */
-        .hero {
-            text-align: center;
-            padding: 40px 20px;
-            min-height: calc(100vh - 60px);
+        .nav-buttons button:hover {
+            background: #ff3b2f;
+        }
+
+        .container {
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            animation: fadeIn 1s ease-in-out;
+            gap: 30px;
+            padding: 50px;
+            min-height: 80vh;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+
+        .service-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            width: 320px;
+            height: 250px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, background 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 1.2s ease-in-out forwards;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
-        .hero h1 {
-            font-size: 48px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            animation: slideIn 0.8s ease-out;
+
+        .service-box:nth-child(2) {
+            animation-delay: 0.3s;
         }
-        .hero p {
-            font-size: 20px;
-            margin-bottom: 40px;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-            animation: slideIn 1s ease-out;
+
+        .service-box:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
         }
-        .hero .button {
-            background: #7B68EE;
+
+        .service-box h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .service-box p {
+            font-size: 16px;
+            flex-grow: 1;
+            margin-bottom: 15px;
+        }
+
+        .button {
+            background: #ff6f61;
             color: white;
             border: none;
-            padding: 15px 30px;
-            font-size: 18px;
+            padding: 10px 20px;
+            font-size: 16px;
             cursor: pointer;
             border-radius: 25px;
             transition: background 0.3s ease, transform 0.2s ease;
-            margin: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            animation: fadeInUp 1.2s ease-out;
         }
-        @keyframes slideIn {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        @keyframes fadeInUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        .hero .button:hover {
-            background: #6A5ACD;
+
+        .button:hover {
+            background: #ff3b2f;
             transform: scale(1.05);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         /* Chatbot Icon */
@@ -121,7 +128,7 @@
             right: 30px;
             width: 80px;
             height: 80px;
-            background: linear-gradient(135deg, #7B68EE, #6A5ACD);
+            background: linear-gradient(135deg, #ff6ec4, #7873f5);
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -130,15 +137,15 @@
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
             transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
             z-index: 1000;
-            animation: fadeIn 1s ease-in-out 0.5s both;
         }
         .chatbot-icon:hover {
             transform: scale(1.1) rotate(8deg);
-            background: linear-gradient(135deg, #6A5ACD, #5a4ac0);
+            background: linear-gradient(135deg, #ff3cac, #784ba0);
             box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
         }
         .chatbot-icon:hover img {
             transform: rotate(10deg) scale(1.1);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
         }
         .chatbot-icon img {
             width: 50px;
@@ -150,10 +157,9 @@
         /* Chatbot Popup */
         .chatbot-container {
             position: fixed;
-            bottom: 120px;
+            bottom: 80px;
             right: 20px;
             width: 360px;
-            max-height: 60vh;
             background: #fff;
             color: black;
             border-radius: 18px;
@@ -162,10 +168,22 @@
             flex-direction: column;
             overflow: hidden;
             font-family: 'Poppins', sans-serif;
-            z-index: 1001;
+            animation: popIn 0.3s ease-in-out;
         }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
         .chatbot-header {
-            background: linear-gradient(to right, #7B68EE, #6A5ACD);
+            background: linear-gradient(to right, #ff6f61, #ff3b2f);
             color: white;
             padding: 14px 16px;
             font-weight: 600;
@@ -174,24 +192,28 @@
             justify-content: space-between;
             align-items: center;
         }
+
         .chatbot-header .close-btn {
             cursor: pointer;
             font-size: 22px;
             font-weight: bold;
             transition: transform 0.2s;
         }
+
         .chatbot-header .close-btn:hover {
             transform: rotate(90deg);
         }
+
         .chatbot-messages {
             padding: 15px 12px;
-            height: calc(60vh - 120px);
+            height: 320px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
             background: #f0f0f0;
             scroll-behavior: smooth;
         }
+
         .chatbot-messages div {
             padding: 10px 14px;
             margin: 6px 0;
@@ -201,24 +223,28 @@
             line-height: 1.4;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .user-message {
             align-self: flex-end;
-            background: #7B68EE;
+            background: #ff6f61;
             color: white;
             border-bottom-right-radius: 0;
         }
+
         .bot-message {
             align-self: flex-start;
             background: #e0e0e0;
             color: #333;
             border-bottom-left-radius: 0;
         }
+
         .chatbot-input {
             display: flex;
             padding: 10px;
             border-top: 1px solid #ddd;
             background: #ffffff;
         }
+
         .chatbot-input input {
             flex: 1;
             padding: 10px 12px;
@@ -228,11 +254,13 @@
             outline: none;
             transition: border 0.2s ease;
         }
+
         .chatbot-input input:focus {
-            border-color: #7B68EE;
+            border-color: #ff6f61;
         }
+
         .chatbot-input button {
-            background: #7B68EE;
+            background: #ff6f61;
             color: white;
             border: none;
             padding: 10px 16px;
@@ -242,46 +270,22 @@
             cursor: pointer;
             transition: background 0.3s ease, transform 0.2s ease;
         }
+
         .chatbot-input button:hover {
-            background: #6A5ACD;
+            background: #ff3b2f;
             transform: scale(1.05);
         }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 36px;
-            }
-            .hero p {
-                font-size: 18px;
-            }
-        }
-        @media (max-width: 480px) {
-            .hero h1 {
-                font-size: 28px;
-            }
-            .hero p {
-                font-size: 16px;
-            }
-            .chatbot-container {
-                width: 90%;
-                right: 5%;
-                max-height: 50vh;
-            }
-            .chatbot-messages {
-                height: calc(50vh - 120px);
-            }
-        }
+        
     </style>
 </head>
-<body>
 
-    <!-- Fixed navbar that won't move with animations -->
+<body>
     <div class="navbar">
         <span>College Portal</span>
         <div class="nav-buttons">
             {% if user.is_authenticated %}
                 <span style="margin-right: 10px;">Hello, {{ user.username }}!</span>
-                <button onclick="window.location.href='logout'">Logout</button>
+                <button onclick="window.location.href='/logout/'">Logout</button>
             {% else %}
                 <button onclick="window.location.href='/login/'">Login</button>
                 <button onclick="window.location.href='/register/'">Register</button>
@@ -289,11 +293,18 @@
         </div>
     </div>
 
-    <!-- Animated content below fixed navbar -->
-    <div class="hero">
-        <h1>Welcome to College Portal</h1>
-        <p>Your gateway to academic excellence and career success.</p>
-        <button class="button" onclick="window.location.href='/services/'">Services</button>
+    <div class="container">
+        <div class="service-box">
+            <h2>Get Recommendations</h2>
+            <p>Receive personalized college suggestions based on your preferences, academic background, and future goals.</p>
+            <button class="button" onclick="window.location.href='/recommendation_form/'">Explore Recommendations</button>
+        </div>
+
+        <div class="service-box">
+            <h2>Compare Colleges</h2>
+            <p>View side-by-side comparisons <br>of institutions to evaluate programs, campus life, costs, and outcomes.</p>
+            <button class="button" onclick="window.location.href='/search/'">Start Comparing</button>
+        </div>
     </div>
 
     <!-- Chatbot Icon -->
@@ -318,10 +329,6 @@
         function toggleChatbot() {
             let chatbot = document.getElementById("chatbot");
             chatbot.style.display = chatbot.style.display === "flex" ? "none" : "flex";
-            // Add pop-in animation when showing
-            if (chatbot.style.display === "flex") {
-                chatbot.style.animation = "popIn 0.3s ease-in-out";
-            }
         }
 
         function handleKeyPress(event) {
@@ -361,6 +368,5 @@
             .catch(error => console.error("Error:", error));
         }
     </script>
-
 </body>
 </html>

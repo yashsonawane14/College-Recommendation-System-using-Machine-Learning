@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}College Recommendation System{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        /* Chatbot icon styling */
+        .chatbot-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 9999;
+        }
+        .chatbot-window {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            width: 300px;
+            height: 400px;
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            z-index: 10000;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}{% endblock %}
+
+    <!-- 🔘 Chatbot Icon -->
+    <button class="chatbot-icon" onclick="toggleChatbot()">💬</button>
+
+    <!-- 💬 Chatbot Window -->
+    <div class="chatbot-window" id="chatbot-window">
+        <h4>Chatbot</h4>
+        <div id="chat-messages" style="height: 300px; overflow-y: auto; border: 1px solid #ccc; padding: 5px;"></div>
+        <input type="text" id="user-input" placeholder="Type your message..." style="width: 100%;" onkeypress="if(event.key === 'Enter') sendMessage()">
+    </div>
+
+    <script>
+        function toggleChatbot() {
+            const chatbotWindow = document.getElementById("chatbot-window");
+            chatbotWindow.style.display = chatbotWindow.style.display === "block" ? "none" : "block";
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById("user-input");
+            const chatMessages = document.getElementById("chat-messages");
+
+            const userMessage = input.value.trim();
+            if (!userMessage) return;
+
+            chatMessages.innerHTML += `<div><strong>You:</strong> ${userMessage}</div>`;
+            input.value = "";
+
+            const response = await fetch("/chatbot/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")
+                },
+                body: JSON.stringify({ message: userMessage })
+            });
+
+            const data = await response.json();
+            chatMessages.innerHTML += `<div><strong>Bot:</strong> ${data.response}</div>`;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>
